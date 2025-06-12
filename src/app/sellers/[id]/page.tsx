@@ -1,11 +1,9 @@
+// src/app/sellers/[id]/page.tsx
 import { PrismaClient } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 
-// Vercel-safe Prisma instance
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
-const prisma = globalForPrisma.prisma ?? new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+const prisma = new PrismaClient();
 
 export default async function Page({
   params,
@@ -28,19 +26,17 @@ export default async function Page({
 
   return (
     <main>
-      <div className="product-detail-wrapper">
-        <h1>{artisan.name}</h1>
-        <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
-        <p><strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}</p>
-        <p>{artisan.artisanProfile?.bio}</p>
+      <h1>{artisan.name}</h1>
+      <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
+      <p><strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}</p>
+      <p>{artisan.artisanProfile?.bio}</p>
 
-        <h2 style={{ marginTop: '2rem' }}>Products by {artisan.name}</h2>
-        <div className="products-grid">
-          {artisan.products.length === 0 && <p>No products listed yet.</p>}
-          {artisan.products.map((product) => (
-            <ProductCard key={product.id} product={{ ...product, artisan: artisan.name }} />
-          ))}
-        </div>
+      <h2 style={{ marginTop: '2rem' }}>Products by {artisan.name}</h2>
+      <div className="products-grid">
+        {artisan.products.length === 0 && <p>No products listed yet.</p>}
+        {artisan.products.map((product) => (
+          <ProductCard key={product.id} product={{ ...product, artisan: artisan.name }} />
+        ))}
       </div>
     </main>
   );
