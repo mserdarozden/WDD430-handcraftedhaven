@@ -4,13 +4,18 @@ import ProductCard from '@/components/ProductCard';
 
 const prisma = new PrismaClient();
 
-type Props = {
-  params: { id: string };
-};
+interface ArtisanDetailPageProps {
+  params: {
+    id: string;
+  };
+}
 
-export default async function ArtisanDetailPage({ params }: Props) {
+// ✅ Fix: Explicit async function with proper return type
+const ArtisanDetailPage = async (props: ArtisanDetailPageProps) => {
+  const { id } = await props.params; // ✅ explicitly await if Next.js warns
+
   const artisan = await prisma.user.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       artisanProfile: true,
       products: {
@@ -41,4 +46,6 @@ export default async function ArtisanDetailPage({ params }: Props) {
       </div>
     </main>
   );
-}
+};
+
+export default ArtisanDetailPage;
