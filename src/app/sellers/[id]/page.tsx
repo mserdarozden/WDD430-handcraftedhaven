@@ -2,20 +2,18 @@ import { PrismaClient } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 
-const prisma = new PrismaClient();
+// Create one global Prisma instance only if not already created (important for serverless)
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+const prisma = globalForPrisma.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-interface ArtisanDetailPageProps {
-  params: {
-    id: string;
-  };
-}
-
-// ✅ Fix: Explicit async function with proper return type
-const ArtisanDetailPage = async (props: ArtisanDetailPageProps) => {
-  const { id } = await props.params; // ✅ explicitly await if Next.js warns
-
+export default async function ArtisanDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const artisan = await prisma.user.findUnique({
-    where: { id },
+    where: { id: params.id },
     include: {
       artisanProfile: true,
       products: {
@@ -46,6 +44,4 @@ const ArtisanDetailPage = async (props: ArtisanDetailPageProps) => {
       </div>
     </main>
   );
-};
-
-export default ArtisanDetailPage;
+}
