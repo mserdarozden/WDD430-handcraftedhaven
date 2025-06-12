@@ -2,12 +2,12 @@ import { PrismaClient } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 
-// Create one global Prisma instance only if not already created (important for serverless)
+// Vercel-safe Prisma instance
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
-const prisma = globalForPrisma.prisma || new PrismaClient();
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-export default async function ArtisanDetailPage({
+export default async function Page({
   params,
 }: {
   params: { id: string };
