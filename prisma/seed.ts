@@ -1,5 +1,7 @@
 import { PrismaClient, UserRole } from '@prisma/client';
- import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
+import 'dotenv/config'; // ✅ absolutely required for manual execution
+
 
 const prisma = new PrismaClient();
 
