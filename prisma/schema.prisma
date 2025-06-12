@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for both customers and artisans
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          UserRole  @default(CUSTOMER)
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  artisanProfile ArtisanProfile?
+  products      Product[]
+  orders        Order[]
+  reviews       Review[]
+  cartItems     CartItem[]
+}
+
+enum UserRole {
+  CUSTOMER
+  ARTISAN
+  ADMIN
+}
+
+// Artisan profile information
+model ArtisanProfile {
+  id            String    @id @default(cuid())
+  bio           String
+  shopName      String
+  location      String?
+  website       String?
+  socialMedia   Json?     // Store social media links as JSON
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Product categories
+model Category {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  description   String?
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  products      ProductCategory[]
+}
+
+// Products listed by artisans
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  description   String
+  price         Decimal   @db.Decimal(10, 2)
+  inventory     Int       @default(0)
+  images        String[]  // Array of image URLs
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  artisanId     String
+  artisan       User      @relation(fields: [artisanId], references: [id])
+  categories    ProductCategory[]
+  reviews       Review[]
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+}
+
+// Many-to-many relationship between products and categories
+model ProductCategory {
+  productId     String
+  categoryId    String
+
+  // Relations
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category      Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([productId, categoryId])
+}
+
+// Shopping cart items
+model CartItem {
+  id            String    @id @default(cuid())
+  quantity      Int
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// Customer orders
+model Order {
+  id            String    @id @default(cuid())
+  status        OrderStatus @default(PENDING)
+  totalAmount   Decimal   @db.Decimal(10, 2)
+  shippingAddress String
+  paymentMethod String
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  orderItems    OrderItem[]
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+// Order items (products in an order)
+model OrderItem {
+  id            String    @id @default(cuid())
+  quantity      Int
+  priceAtPurchase Decimal @db.Decimal(10, 2)
+
+  // Relations
+  orderId       String
+  order         Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id])
+
+  @@unique([orderId, productId])
+}
+
+// Product reviews and ratings
+model Review {
+  id            String    @id @default(cuid())
+  rating        Int       // 1-5 star rating
+  comment       String?
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
