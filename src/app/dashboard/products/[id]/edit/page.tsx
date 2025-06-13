@@ -1,27 +1,53 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import RoleGuard from '@/components/RoleGuard';
 import { useAuth } from '@/lib/AuthContext';
 
-export default function AddProductPage() {
-  const { user } = useAuth();
+export default function EditProductPage() {
+  const { id } = useParams();
   const router = useRouter();
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
-    image: '/placeholder.svg', 
+    image: '',
   });
 
-  const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  // Fetch product by ID
+  useEffect(() => {
+    if (!id) return;
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        const data = await res.json();
+        setFormData({
+          name: data.name,
+          description: data.description,
+          price: data.price.toString(),
+          image: data.images?.[0] || '',
+        });
+      } catch (err) {
+        console.error('Error loading product:', err);
+        setError('Failed to load product.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,21 +56,19 @@ export default function AddProductPage() {
     setError('');
 
     try {
-      const res = await fetch('/api/products', {
-        method: 'POST',
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
+          name: formData.name,
+          description: formData.description,
           price: parseFloat(formData.price),
+          image: formData.image,
           artisanId: user?.id,
         }),
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to add product');
-      }
-
+      if (!res.ok) throw new Error('Update failed');
       router.push('/dashboard/products');
     } catch (err: any) {
       setError(err.message);
@@ -53,10 +77,12 @@ export default function AddProductPage() {
     }
   };
 
+  if (loading) return <p>Loading...</p>;
+
   return (
     <RoleGuard allowedRoles={['ARTISAN']} fallbackPath="/">
       <div className="container">
-        <h1>Add New Product</h1>
+        <h1>Edit Product</h1>
         <form onSubmit={handleSubmit} style={{ maxWidth: 600 }}>
           <div>
             <label>Name:</label>
@@ -80,8 +106,8 @@ export default function AddProductPage() {
 
           {error && <p style={{ color: 'red' }}>{error}</p>}
 
-          <button type="submit" disabled={submitting} className="cta-button">
-            {submitting ? 'Adding...' : 'Add Product'}
+          <button type="submit" className="cta-button" disabled={submitting}>
+            {submitting ? 'Saving...' : 'Update Product'}
           </button>
         </form>
       </div>
