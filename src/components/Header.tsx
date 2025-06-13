@@ -39,20 +39,23 @@ export default function Header() {
               {user.role === 'ARTISAN' && (
                 <>
                   <li><Link href="/dashboard/products">My Products</Link></li>
-                  <li><Link href="/dashboard/orders">My Orders</Link></li>
+                  {//<li><Link href="/dashboard/orders">My Orders</Link></li>
+                  }
                 </>
               )}
 
-              {user.role === 'CUSTOMER' && (
-                <>
-                  <li><Link href="/orders">My Orders</Link></li>
-                  <li><Link href="/cart">Cart</Link></li>
-                </>
-              )}
+              {//user.role === 'CUSTOMER' && (
+               // <>
+               //   <li><Link href="/orders">My Orders</Link></li>
+               //   <li><Link href="/cart">Cart</Link></li>
+               //</> </>
+              //)
+              }
 
               {user.role === 'ADMIN' && (
                 <>
-                  <li><Link href="/admin/users">Manage Users</Link></li>
+                  {//<li><Link href="/admin/users">Manage Users</Link></li>
+                  }
                   <li><Link href="/admin/products">Manage Products</Link></li>
                 </>
               )}

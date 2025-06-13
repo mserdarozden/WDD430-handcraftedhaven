@@ -31,8 +31,35 @@ export async function GET(req: NextRequest) {
     },
     include: {
       categories: true,
+      artisan: true, // if needed by frontend
     },
   });
 
   return NextResponse.json(products);
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { name, description, price, image, artisanId } = body;
+
+    if (!name || !description || !price || !artisanId) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    const newProduct = await prisma.product.create({
+      data: {
+        name,
+        description,
+        price,
+        images: image ? [image] : [],
+        artisan: { connect: { id: artisanId } },
+      },
+    });
+
+    return NextResponse.json(newProduct, { status: 201 });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+  }
 }
