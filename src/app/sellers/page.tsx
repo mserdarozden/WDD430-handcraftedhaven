@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function SellersPage() {
   const artisans = await prisma.user.findMany({
@@ -21,19 +22,16 @@ export default async function SellersPage() {
             href={`/sellers/${artisan.id}`}
             className="artisan-card"
           >
-            <h3>{artisan.name}</h3>
-            <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
-            <p>{artisan.artisanProfile?.bio}</p>
-            <p>
-              <strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}
-            </p>
-            {artisan.artisanProfile?.website && (
-              <p>
-                <span style={{ color: 'var(--steel-blue)', textDecoration: 'underline' }}>
-                  Visit Website
-                </span>
-              </p>
-            )}
+            <div className="artisan-card-content">
+              <Image src={artisan.artisanProfile?.website || '/placeholder.jpg'} alt={artisan.name} width={200} height={300} />
+              <div>
+                <h3>{artisan.name}</h3>
+                <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
+                <p>
+                  <strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}
+                </p>
+              </div>
+            </div>
           </Link>
         ))}
       </div>

@@ -62,8 +62,7 @@ export default function ProductDetailPage() {
         <div className="product-detail-top">
           <div className="product-detail-image">
            <img
-            //src={product.images[0] || '/placeholder.jpg'}
-            src={'/placeholder.svg'}
+            src={product.images[0] || '/placeholder.jpg'}
             alt={product.name}
           />
           </div>

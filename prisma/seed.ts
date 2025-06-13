@@ -84,7 +84,7 @@ async function main() {
             bio: 'I\'ve been creating handmade jewelry for over 10 years, specializing in silver and gemstone pieces.',
             shopName: 'Emma\'s Elegant Jewelry',
             location: 'Portland, OR',
-            website: 'www.emmasjewelry.com',
+            website: '/artisans/emma.png',
             socialMedia: {
               instagram: '@emmasjewelry',
               facebook: 'EmmasJewelry',
@@ -104,7 +104,7 @@ async function main() {
             bio: 'I create functional pottery inspired by traditional Japanese techniques with a modern twist.',
             shopName: 'Chen Ceramics',
             location: 'Seattle, WA',
-            website: 'www.chenceramics.com',
+            website: '/artisans/micheal.png',
             socialMedia: {
               instagram: '@chenceramics',
               pinterest: 'ChenCeramics',
@@ -124,7 +124,7 @@ async function main() {
             bio: 'I create handwoven textiles using traditional techniques passed down through generations.',
             shopName: 'Sophia\'s Textiles',
             location: 'Santa Fe, NM',
-            website: 'www.sophiastextiles.com',
+            website: '/artisans/sophia.png',
             socialMedia: {
               instagram: '@sophiastextiles',
               etsy: 'SophiasTextiles',
@@ -170,8 +170,7 @@ async function main() {
         price: 89.99,
         inventory: 15,
         images: [
-          'https://example.com/images/moonstone-necklace-1.jpg',
-          'https://example.com/images/moonstone-necklace-2.jpg',
+          '/products/moonstone-necklace.png',
         ],
         artisanId: artisans[0].id,
         categories: {
@@ -188,7 +187,7 @@ async function main() {
         price: 45.00,
         inventory: 20,
         images: [
-          'https://example.com/images/copper-earrings-1.jpg',
+          '/products/copper-earrings.png',
         ],
         artisanId: artisans[0].id,
         categories: {
@@ -209,8 +208,7 @@ async function main() {
         price: 120.00,
         inventory: 8,
         images: [
-          'https://example.com/images/tea-set-1.jpg',
-          'https://example.com/images/tea-set-2.jpg',
+          '/products/tea-set.png',
         ],
         artisanId: artisans[1].id,
         categories: {
@@ -227,7 +225,7 @@ async function main() {
         price: 65.00,
         inventory: 12,
         images: [
-          'https://example.com/images/ceramic-vase-1.jpg',
+          '/products/ceramic-vase.png',
         ],
         artisanId: artisans[1].id,
         categories: {
@@ -249,8 +247,7 @@ async function main() {
         price: 189.99,
         inventory: 5,
         images: [
-          'https://example.com/images/wool-blanket-1.jpg',
-          'https://example.com/images/wool-blanket-2.jpg',
+          '/products/wool-blanket.png',
         ],
         artisanId: artisans[2].id,
         categories: {
@@ -267,7 +264,7 @@ async function main() {
         price: 55.00,
         inventory: 15,
         images: [
-          'https://example.com/images/table-runner-1.jpg',
+          '/products/table-runner.png',
         ],
         artisanId: artisans[2].id,
         categories: {

@@ -247,7 +247,7 @@ main section {
 
 .product-card img {
   width: 100%;
-  height: 180px;
+  height: 370px;
   object-fit: cover;
   border-radius: 6px;
   margin-bottom: 0.75rem;
@@ -413,4 +413,30 @@ main section {
   font-size: 0.95rem;
   color: #333;
   margin-bottom: 0.5rem;
+}
+
+.artisan-detail-header {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.artisan-detail-header img {
+  border-radius: 6px;
+  border: 1px solid var(--sky-blue);
+  margin-right: 1rem;
+}
+
+.artisan-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.artisan-card-content img {
+  border-radius: 6px;
+  border: 1px solid var(--sky-blue);
+  margin-right: 1rem;
 }

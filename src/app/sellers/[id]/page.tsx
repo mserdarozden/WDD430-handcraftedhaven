@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ProductCard from '@/components/ProductCard';
+import Image from 'next/image';
 
 export default function ArtisanDetailPage() {
   const { id } = useParams();
@@ -31,10 +32,16 @@ export default function ArtisanDetailPage() {
   return (
     <main>
       <div className="product-detail-wrapper">
-        <h1>{artisan.name}</h1>
-        <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
-        <p><strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}</p>
-        <p>{artisan.artisanProfile?.bio}</p>
+        <div className="artisan-detail-header">
+          <Image src={artisan.artisanProfile?.website || '/placeholder.jpg'} alt={artisan.name} width={200} height={300} />
+          <div>
+            <h1>{artisan.name}</h1>
+            <p><strong>Shop:</strong> {artisan.artisanProfile?.shopName}</p>
+            <p><strong>Location:</strong> {artisan.artisanProfile?.location || 'N/A'}</p>
+            <p>{artisan.artisanProfile?.bio}</p>
+          </div>
+        </div>
+
 
         <h2 style={{ marginTop: '2rem' }}>Products by {artisan.name}</h2>
         <div className="products-grid">
