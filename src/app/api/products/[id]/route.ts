@@ -29,10 +29,16 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(product);
 }
 
-export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
-
+// DELETE handler
+export async function DELETE(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const id = url.pathname.split('/').pop(); // get the id from the URL
+
+    if (!id) {
+      return NextResponse.json({ error: 'Product ID is missing' }, { status: 400 });
+    }
+
     await prisma.product.delete({
       where: { id },
     });
@@ -45,10 +51,17 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 }
 
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
 
+// PUT handler
+export async function PUT(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const id = url.pathname.split('/').pop(); // get the id from the URL
+
+    if (!id) {
+      return NextResponse.json({ error: 'Product ID is missing' }, { status: 400 });
+    }
+
     const body = await req.json();
     const { name, description, price, image } = body;
 
