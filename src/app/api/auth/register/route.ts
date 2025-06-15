@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         name,
         email,
         password: hashedPassword,
-        ...(role ? { role } : {}), // Include role if provided, otherwise use default (CUSTOMER)
+        ...(role ? { role } : {}), 
       },
     });
 

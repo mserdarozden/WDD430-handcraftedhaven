@@ -15,7 +15,7 @@ export default function SearchBar({ filters, setFilters, onSearch }: Props) {
         value={filters.search}
         onChange={(e) => setFilters({ ...filters, search: e.target.value })}
       />
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <div className="filter-group">
         <input
           type="text"
           placeholder="Category"

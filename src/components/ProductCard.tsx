@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 type ProductWithArtisan = Product & {
-  artisan: string; // Ensure the artisan field is part of the product object
+  artisan: string; 
 };
 
 export default function ProductCard({ product }: { product: ProductWithArtisan }) {

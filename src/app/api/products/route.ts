@@ -1,4 +1,3 @@
-// src/app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -31,7 +30,7 @@ export async function GET(req: NextRequest) {
     },
     include: {
       categories: true,
-      artisan: true, // if needed by frontend
+      artisan: true, 
     },
   });
 

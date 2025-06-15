@@ -82,7 +82,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(data.error || 'Registration failed');
       }
 
-      // Registration successful, but we don't log the user in automatically
     } catch (error) {
       throw error;
     } finally {
