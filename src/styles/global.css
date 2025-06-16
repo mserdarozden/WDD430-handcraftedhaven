@@ -55,7 +55,16 @@ body {
 }
 
 .nav-list li a:hover {
-  color: var(--sky-blue);
+  color: var(--deep-navy);
+  background-color: var(--cream);
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.nav-list li a.active{
+  color: var(--sky-blue); 
+  font-weight: bold;
+  border-bottom: 2px solid var(--sky-blue); 
 }
 
 /* User Authentication in Header */
