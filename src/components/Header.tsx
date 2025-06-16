@@ -76,9 +76,9 @@ export default function Header() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle navigation"
       >
-        <div className="bar" />
-        <div className="bar" />
-        <div className="bar" />
+        <span  className="bar" />
+        <span  className="bar" />
+        <span  className="bar" />
       </button>
     </header>
   );

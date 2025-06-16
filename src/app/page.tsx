@@ -3,6 +3,7 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <>
+    
       <section className="hero">
         <div>
           <h1>Welcome to Handcrafted Haven</h1>
